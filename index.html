@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Registration_with_valid</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+
+  
+
+    </head>
+    <body>
+        <div class="main-wrapper">
+            <div class="form-row">
+                <div class="form-col-left">
+                    <h2>Зарегистрируйся прямо сейчас!</h2>
+                    <form class="register-form">
+                        <div class="form-item-list">
+                            <!-- item -->
+                            <div class="form-item">
+                                <label for="firstname">Имя</label>
+                                <div class="form-group">
+                                    <span><i class="fas fa-user"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="firstname" placeholder="Полное имя">
+                                </div>
+                            </div>
+                            <!-- конец item -->
+                             <!-- item -->
+                             <div class="form-item">
+                                <label for="lastname">Фамилия</label>
+                                <div class="form-group">
+                                    <span><i class="fas fa-user"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="lastname" placeholder="Фамилия">
+                                </div>
+                            </div>
+                            <!-- конец item -->
+                             <!-- item -->
+                             <div class="form-item">
+                                <label for="email">Электронная почта</label>
+                                <div class="form-group">
+                                    <span><i class="fas fa-envelope"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="email" placeholder="Email">
+                                </div>
+                            </div>
+                            <!-- конец item -->
+                             <!-- item -->
+                             <div class="form-item">
+                                <label for="phonenumber">Номер телефона</label>
+                                <div class="form-group">
+                                    <span><i class="fas fa-phone-alt"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="phonenumber" placeholder="XXX-XXX-XX-XX">
+                                </div>
+                            </div>
+                            <!-- конец item -->
+                             <!-- item -->
+                             <div class="form-item">
+                                <label for="password">Пароль</label>
+                                <div class="form-group">
+                                    <span><i class="fas fa-lock"></i>
+                                    </span>
+                                    <input type="password" class="form-control" id="password" placeholder="Строчные и прописные латинские буквы, цифры">
+                                </div>
+                            </div>
+                            <!-- конец item -->
+                                     <!-- item -->
+                                     <div class="form-item">
+                                        <label for="confirm-password">Подтвердите пароль</label>
+                                        <div class="form-group">
+                                            <span><i class="fas fa-lock"></i>
+                                            </span>
+                                            <input type="password" class="form-control" id="confirm-password" placeholder="Подтвердите пароль">
+                                        </div>
+                                    </div>
+                                    <!-- конец item -->
+                        </div>
+                        <span class="submission-status">
+                        </span>
+                        <button type="submit" id="submit-btn">
+                            Зарегестрироваться
+                        </button>
+                    </form>
+                </div>
+                <div class="form-col-right">
+                    <h2>Уже зарегестрированы?</h2>
+                    <p class="text">Если вы уже зарегестрированы, войдите в личный кабинет</p>
+                    <button type="button" id="login-btn">
+                        Личный кабинет
+                        <i class="fas fa-long-arrow-alt-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            const registerForm = document.querySelector('.register-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const submissionStatus = document.querySelector('.submission-status');
+
+            const firstName = document.getElementById('firstname'),
+                  lastName = document.getElementById('lastname'),
+                  emailAddr = document.getElementById('email'),
+                  phoneNumber = document.getElementById('phonenumber'),
+                  password = document.getElementById('password'),
+                  confirmPassword = document.getElementById('confirm-password');
+
+            submitBtn.addEventListener('click', (e)=>{
+                e.preventDefault();
+                let isValidForm = validateInputValues();
+                if(isValidForm){
+                    submissionStatus.classList.add('successMessage');
+                    submissionStatus.textContent = 'Регистрация успешна!';
+                }else{
+                    submissionStatus.classList.add('errorMessage');
+                    submissionStatus.textContent = 'Упс! Регистрация неуспешна =(';
+                }
+                setTimeout(()=>{
+                    submissionStatus.classList.remove('errorMessage', 'successMessage');
+                        
+                },1500);
+            })
+
+            function validateInputValues(){
+                let inputValidationStatus = [];
+                if(validateName(firstName.value)){
+                    inputStatus(true, firstName);
+                    inputValidationStatus[0] = true;
+                }else{
+                    inputStatus(false,firstName);
+                    inputValidationStatus[0] = false;
+                }
+
+                if(validateName(lastName.value)){
+                    inputStatus(true, lastName);
+                    inputValidationStatus[1] = true;
+                } else {
+                    inputStatus(false, lastName);
+                    inputValidationStatus[1] = false;
+                }
+                if(validateEmail(emailAddr.value)){
+                    inputStatus(true, emailAddr);
+                    inputValidationStatus[2] = true;
+                } else{
+                    inputStatus(false, emailAddr);
+                    inputValidationStatus[2] = false;
+                }
+                if(validatePhoneNo(phoneNumber.value)){
+                    inputStatus(true, phoneNumber );
+                    inputValidationStatus[3] = true;
+                } else{
+                    inputStatus(false, phoneNumber);
+                    inputValidationStatus[3] = false;
+                }
+                if(validatePassword(password.value)){
+                    inputStatus(true, password );
+                    inputValidationStatus[4] = true;
+                } else{
+                    inputStatus(false, password);
+                    inputValidationStatus[4] = false;
+                }
+                if(confirmPassword.value === password.value){
+                    inputStatus(true, confirmPassword);
+                    inputValidationStatus[5] = true;
+                }else{
+                    inputStatus(false, confirmPassword);
+                    inputValidationStatus[5] = false;
+                }
+                return(inputValidationStatus.includes(false) ? false : true);
+            }
+            // валидация имя, фамилия
+            function validateName(nameTxt){
+                const nameRegex = /^[a-zA-ZА-Яа-яЁё]+$/;
+                return nameRegex.test(nameTxt);
+            }
+            // валидация ємейла
+            function validateEmail(emailTxt){
+                const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                return emailRegex.test(emailTxt);
+            }
+
+           // валидация номера телефона
+           function validatePhoneNo(phoneTxt){
+                const phoneRegex =  /^((8|\+7)[\- ]?)?(\(?\d{3,4}\)?[\- ]?)?[\d\- ]{5,10}$/
+                return phoneRegex.test(phoneTxt);
+            }
+
+            // валидация пароля
+            function validatePassword(passwordTxt){
+                const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
+                return passwordRegex.test(passwordTxt);
+            }
+
+            // валидация подтвержения пароля
+            function validateСonfirmPassword(passwordTxt, confirmPasswordTxt){
+                return (passwordTxt === confirmPasswordTxt);
+            }
+
+            function inputStatus(status, input){
+                let inputGroup = input.parentElement;
+                if(status){
+                    inputGroup.classList.add('success');
+                } else{
+                    inputGroup.classList.add('error');
+                }
+
+
+                setTimeout(() => {
+                    inputGroup.classList.remove('success', 'error');
+                }, 1500);
+            }
+
+        </script> 
+    </body>
+</html>
